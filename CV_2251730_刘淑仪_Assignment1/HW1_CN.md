@@ -178,82 +178,68 @@ x^T A^T A x = (A x)^T (A x) = \| A x \|^2
 
 在MatLab中，可以使用内置的 `fit` 函数结合 RANSAC 算法来拟合直线，并通过图形化显示拟合结果。
 
-### 代码
+Environment: Windows 11
 
-```matlab
-% 数据点
-x = [-2, 0, 2, 3, 4, 5, 6, 8, 10, 12, 13, 14, 16, 18];
-y = [0, 0.9, 2.0, 6.5, 2.9, 8.8, 3.95, 5.03, 5.97, 7.1, 1.2, 8.2, 8.5, 10.1];
+Platform: MatLab 2023b
 
-% 参数设置
-maxIter = 1000; % 最大迭代次数
-threshold = 1.0; % 距离阈值，控制内点判定
-bestFit = []; % 最好的拟合参数
-bestInliersCount = 0; % 内点数量最大值
+Libraries: Base Numeric Functions, Plotting Functions
 
-for i = 1:maxIter
-    % 随机选择两个不同的点
-    sampleIdx = randperm(length(x), 2);
-    x1 = x(sampleIdx(1));
-    y1 = y(sampleIdx(1));
-    x2 = x(sampleIdx(2));
-    y2 = y(sampleIdx(2));
-    
-    % 计算直线的参数：y = mx + b
-    if x2 - x1 == 0
-        continue; % 防止除以零的情况
-    end
-    m = (y2 - y1) / (x2 - x1);
-    b = y1 - m * x1;
-    
-    % 计算所有点到直线的距离
-    distances = abs(m * x - y + b) / sqrt(m^2 + 1);
-    
-    % 统计内点数量
-    inliers = distances < threshold;
-    inliersCount = sum(inliers);
-    
-    % 更新最好的拟合结果
-    if inliersCount > bestInliersCount
-        bestInliersCount = inliersCount;
-        bestFit = [m, b];
-    end
-end
+Code location: ../Program/Prog4.m
 
-% 输出最好的拟合结果
-fprintf('Best fit line: y = %.2fx + %.2f\n', bestFit(1), bestFit(2));
+### Results are as follows: 
 
-% 绘制原始数据点
-figure;
-plot(x, y, 'bo', 'MarkerSize', 8, 'DisplayName', 'Data Points');
-hold on;
-
-% 绘制拟合的直线
-xFit = linspace(min(x), max(x), 100);
-yFit = bestFit(1) * xFit + bestFit(2);
-plot(xFit, yFit, 'r-', 'LineWidth', 2, 'DisplayName', 'Fitted Line (RANSAC)');
-
-% 设置图形属性
-xlabel('x');
-ylabel('y');
-title('RANSAC Line Fitting');
-legend('show');
-grid on;
-hold off;
-```
-
-### 具体步骤
-1. 数据输入：将样本点 x 和 y 输入为向量。
-2. 参数设定：maxIter 表示 RANSAC 算法的最大迭代次数，threshold 用于判断点是否是内点的距离阈值。
-3. RANSAC 算法：
-- 随机选择两个不同的点计算直线。
-- 计算所有点到直线的距离，并判断它们是否是内点。
-- 记录内点最多的直线参数。
-4. 绘制结果：绘制原始数据点和使用 RANSAC 得到的最佳拟合直线。
-
-### 最终结果
-![](../homework/src/4-1.png)
-![](../homework/src/4-2.png)
+#### 最终结果
+![](../CV_2251730_刘淑仪_Assignment1/src/4-1.png)
 
 ## 基于LoG（或DoG）和SIFT的图像拼接
 
+Environment: Windows 11
+
+Platform: PyCharm Professional 2024.1.4
+
+Python version: 3.12.4
+
+Python libraries: numpy opencv-Python
+
+Code location: ../Program/Prog5.py
+
+### Results are as follows:
+
+#### 原始图片
+<div align="center">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-1.jpg" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-2.jpg" alt="图片2" width="50%" style="max-width: 300px;">
+</div>
+
+#### 关键点检测
+<div align="center">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-3.png" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-4.png" alt="图片2" width="50%" style="max-width: 300px;">
+</div>
+
+#### 匹配结果
+![](../CV_2251730_刘淑仪_Assignment1/src/5-5.png)
+
+#### 拼接结果
+![](../CV_2251730_刘淑仪_Assignment1/src/5-6.png)
+
+## 基于OpenCV的ORB特征点检测与匹配算法实现
+
+Environment: Windows 11
+
+Platform: Visual Studio 2022
+
+Libraries: opencv 4.10.0
+
+Code location: ./Program/Prog6
+
+### Results are as follows:
+
+#### 原始图片
+<div align="center">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/6-1.jpg" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/6-2.jpg" alt="图片2" width="50%" style="max-width: 300px;">
+</div>
+
+#### 匹配结果
+![](../CV_2251730_刘淑仪_Assignment1/src/6-3.png)
