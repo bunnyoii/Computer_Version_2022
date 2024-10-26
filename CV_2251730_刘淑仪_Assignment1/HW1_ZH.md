@@ -24,26 +24,75 @@ M_j = \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix}
 我们计算矩阵乘积 \( M_i M_j \)：
 \[M_i M_j = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j & R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
 \]
-可以看出，乘积矩阵仍然具有相同的形式，即左上角是 \(R_i R_j\)（两个正交矩阵的乘积仍然是正交矩阵），右上角是 \(R_i t_j + t_i\)（一个向量），最后一行是 \([0^T, 1]\)。因此，乘积矩阵 \( M_i M_j \) 仍属于集合 \(\{M_i\}\)，说明封闭性成立。
+可以看出，乘积矩阵仍然具有相同的形式，即左上角是 \(R_i R_j\)。
+\( R_i \) 和 \( R_j \) 都是正交矩阵，即：
+\[
+R_i^T R_i = I, \quad R_j^T R_j = I
+\]
+
+我们需要证明 \( R_i R_j \) 也是正交矩阵，即 \( (R_i R_j)^T (R_i R_j) = I \)。
+
+首先计算 \( (R_i R_j)^T \)：
+\[
+(R_i R_j)^T = R_j^T R_i^T
+\]
+
+然后计算 \( (R_i R_j)^T (R_i R_j) \)：
+\[
+(R_i R_j)^T (R_i R_j) = R_j^T R_i^T R_i R_j
+\]
+
+由于 \( R_i \) 和 \( R_j \) 是正交矩阵，有 \( R_i^T R_i = I \) 和 \( R_j^T R_j = I \)，因此可以化简为：
+\[
+R_j^T (R_i^T R_i) R_j = R_j^T I R_j = R_j^T R_j = I
+\]
+
+这表明 \( (R_i R_j)^T (R_i R_j) = I \)，因此 \( R_i R_j \) 也是正交矩阵。
+
+右上角是 \(R_i t_j + t_i\)（一个向量），最后一行是 \([0^T, 1]\)。因此，乘积矩阵 \( M_i M_j \) 仍属于集合 \(\{M_i\}\)，说明封闭性成立。
 
 ### 2. 结合性
 结合性要求：对于任意三个矩阵 \( M_i, M_j, M_k \)，有 \( (M_i M_j) M_k = M_i (M_j M_k) \)。
 
-因为矩阵乘法本身是满足结合律的（即 \( (AB)C = A(BC) \) 对任意矩阵成立），所以直接可以得出 \( M_i, M_j, M_k \) 的乘法也满足结合律。这表明结合性成立。
+选择来自\(\{M_i\}\)的任意三个矩阵 \( M_i\), \( M_j \) 和 \( M_k \)，我们有：
+
+\[
+(M_i \times M_j) \times M_k = \left(\begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix}\right) \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix}
+\]
+
+\[
+= \begin{bmatrix} R_i R_j & R_i t_j + t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j R_k & R_i R_j t_k + R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
+\]
+
+\[
+M_i \times (M_j \times M_k) = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \left(\begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix}\right)
+\]
+
+\[
+= \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j R_k & R_j t_k + t_j \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j R_k & R_i R_j t_k + R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
+\]
+
+因此：
+
+\[
+(M_i \times M_j) \times M_k = M_i \times (M_j \times M_k)
+\]
+
+而且矩阵乘法本身是满足结合律的（即 \( (AB)C = A(BC) \) 对任意矩阵成立），所以 \( M_i, M_j, M_k \) 的乘法满足结合律。这表明结合性成立。
 
 ### 3. 单位元
 单位元要求：存在一个矩阵 \( M_e \in \{M_i\} \)，使得对于任意矩阵 \( M_i \)，有 \( M_e M_i = M_i M_e = M_i \)。
 
 选择单位矩阵：
-\[M_e = \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix}
+\[M_e = \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix}
 \]
-其中 \(I_3\) 是 \(3 	imes 3\) 的单位矩阵，0 是 \(3 	imes 1\) 的零向量。
+其中 \(I_3\) 是 \(3 × 3\) 的单位矩阵，0 是 \(3 × 1\) 的零向量。
 
 验证：
-\[M_e M_i = \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
+\[M_e M_i = \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
 \]
 同样地：
-\[M_i M_e = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
+\[M_i M_e = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix}  = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
 \]
 因此 \( M_e \) 是单位元，单位元存在性成立。
 
@@ -60,7 +109,6 @@ M_j = \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix}
 
 ### 总结
 通过证明封闭性、结合性、单位元存在性和逆元素存在性，得出 \(\{M_i\}\) 确实构成一个群。
-
 
 ## Harris角点检测器的矩阵性质
 

@@ -12,49 +12,95 @@ Semester of instruction: 2024-2025, autumn semester
 
 To prove that the matrix set \(\{M_i\}\) forms a group, we need to verify that it satisfies the four group properties: **closure**, **associativity**, **existence of identity element**, and **existence of inverse element**. The specific steps are as follows:
 
-### 1. Closure
-Closure requires that for any two matrices \(M_i\) and \(M_j\), their product \(M_i M_j\) still belongs to the set \(\{M_i\}\).
+### 1. Closedness
+The closedness requirement states that for any two transformation matrices \(M_i\) and \(M_j\), their product \(M_i M_j\) must also belong to the set \(\{M_i\}\).
 
-Assume \( M_i \) and \( M_j \) have the form:
+Assume \( M_i \) and \( M_j \) are in the form:
 \[
 M_i = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix}, \quad
 M_j = \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix}
 \]
 
-We compute the matrix product \( M_i M_j \):
+We calculate the product \( M_i M_j \):
 \[
 M_i M_j = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j & R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
 \]
-It can be seen that the product matrix still has the same form, with the upper left corner being \(R_i R_j\) (the product of two orthogonal matrices is still an orthogonal matrix), the upper right corner being \(R_i t_j + t_i\) (a vector), and the last row being \([0^T, 1]\). Therefore, the product matrix \( M_i M_j \) still belongs to the set \(\{M_i\}\), confirming closure.
+The result is still in the same form, where the top-left block is \( R_i R_j \).
+Since \( R_i \) and \( R_j \) are orthogonal matrices, i.e.:
+\[
+R_i^T R_i = I, \quad R_j^T R_j = I
+\]
+
+We need to demonstrate that \( R_i R_j \) is also an orthogonal matrix, i.e., \( (R_i R_j)^T (R_i R_j) = I \).
+
+First, calculate \( (R_i R_j)^T \):
+\[
+(R_i R_j)^T = R_j^T R_i^T
+\]
+
+Then, we proceed with:
+\[
+(R_i R_j)^T (R_i R_j) = R_j^T R_i^T R_i R_j
+\]
+
+Given that \( R_i \) and \( R_j \) are orthogonal, \( R_i^T R_i = I \) and \( R_j^T R_j = I \), we simplify this to:
+\[
+R_j^T (R_i^T R_i) R_j = R_j^T I R_j = R_j^T R_j = I
+\]
+
+This confirms that \( (R_i R_j)^T (R_i R_j) = I \), hence \( R_i R_j \) is orthogonal.
+
+The top-right block, \( R_i t_j + t_i \), represents a translation vector, and the last row is \([0^T, 1]\). Therefore, the product \( M_i M_j \) remains within \(\{M_i\}\), satisfying the closedness property.
 
 ### 2. Associativity
-Associativity requires that for any three matrices \( M_i, M_j, M_k \), we have \( (M_i M_j) M_k = M_i (M_j M_k) \).
+The associativity requirement dictates that for any three transformation matrices \( M_i, M_j, M_k \), the relation \( (M_i M_j) M_k = M_i (M_j M_k) \) holds.
 
-Since matrix multiplication itself satisfies the associative property (i.e., \( (AB)C = A(BC) \) for any matrices), we can directly conclude that the multiplication of \( M_i, M_j, M_k \) also satisfies the associative property. This confirms associativity.
-
-### 3. Identity Element
-The identity element requires that there exists a matrix \( M_e \in \{M_i\}\) such that for any matrix \( M_i \), we have \( M_e M_i = M_i M_e = M_i \).
-
-We choose the identity matrix:
+For any three matrices \( M_i, M_j, M_k \) from \(\{M_i\}\), we can compute:
 \[
-M_e = \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix}
+(M_i \times M_j) \times M_k = \left(\begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix}\right) \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix}
 \]
-where \(I_3\) is a \(3 \times 3\) identity matrix, and \(0\) is a \(3 \times 1\) zero vector.
+\[
+= \begin{bmatrix} R_i R_j & R_i t_j + t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j R_k & R_i R_j t_k + R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
+\]
+
+Similarly:
+\[
+M_i \times (M_j \times M_k) = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \left(\begin{bmatrix} R_j & t_j \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_k & t_k \\ 0^T & 1 \end{bmatrix}\right)
+\]
+\[
+= \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_j R_k & R_j t_k + t_j \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_j R_k & R_i R_j t_k + R_i t_j + t_i \\ 0^T & 1 \end{bmatrix}
+\]
+
+Therefore:
+\[
+(M_i \times M_j) \times M_k = M_i \times (M_j \times M_k)
+\]
+
+Matrix multiplication in homogeneous coordinates preserves the associative property, ensuring \( M_i, M_j, M_k \) follow the associative rule, thus confirming associativity.
+
+### 3. Identity Transformation
+The identity transformation requirement asserts that there exists a matrix \( M_e \in \{M_i\} \) such that \( M_e M_i = M_i M_e = M_i \) for any \( M_i \).
+
+Define the identity matrix as:
+\[
+M_e = \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix}
+\]
+where \(I_3\) is the \(3 \times 3\) identity matrix, and 0 is a \(3 \times 1\) zero vector.
 
 Verification:
 \[
-M_e M_i = \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
+M_e M_i = \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
 \]
 Similarly:
 \[
-M_i M_e = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
+M_i M_e = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} I_{3 \times 3} & 0 \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} = M_i
 \]
-Therefore, \( M_e \) is the identity element, confirming the existence of the identity element.
+Thus, \( M_e \) functions as the identity element, confirming its existence.
 
-### 4. Inverse Element
-The inverse element requires that for each matrix \( M_i \), there exists a matrix \( M_i^{-1} \) such that \( M_i M_i^{-1} = M_i^{-1} M_i = M_e \).
+### 4. Inverse Transformation
+The inverse requirement specifies that for each \( M_i \), there must be an inverse matrix \( M_i^{-1} \) such that \( M_i M_i^{-1} = M_i^{-1} M_i = M_e \).
 
-We construct the inverse matrix for \( M_i \):
+We construct the inverse as:
 \[
 M_i^{-1} = \begin{bmatrix} R_i^T & -R_i^T t_i \\ 0^T & 1 \end{bmatrix}
 \]
@@ -62,11 +108,10 @@ Verification:
 \[
 M_i M_i^{-1} = \begin{bmatrix} R_i & t_i \\ 0^T & 1 \end{bmatrix} \begin{bmatrix} R_i^T & -R_i^T t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} R_i R_i^T & R_i (-R_i^T t_i) + t_i \\ 0^T & 1 \end{bmatrix} = \begin{bmatrix} I_3 & 0 \\ 0^T & 1 \end{bmatrix} = M_e
 \]
-Thus, \( M_i^{-1} \) is the inverse of \( M_i \), confirming the existence of the inverse element.
+It confirms that \( M_i^{-1} \) is the inverse of \( M_i \), thus validating the existence of an inverse.
 
 ### Conclusion
-By proving closure, associativity, existence of the identity element, and existence of the inverse element, we conclude that \(\{M_i\}\) indeed forms a group.
-
+Through the proof of closedness, associativity, the existence of an identity element, and the existence of inverse elements, we conclude that \(\{M_i\}\) constitutes a group under matrix multiplication.
 
 ## Harris Corner Detector's Matrix Properties
 
