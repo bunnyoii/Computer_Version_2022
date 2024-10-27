@@ -261,13 +261,13 @@ Code location: ../Program/Prog5.py
 #### Original image
 
 <div align="center">
-    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-1.jpg" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-1.jpg" alt="图片1" width="50%" style="max-width: 300px;">
     <img src="../CV_2251730_刘淑仪_Assignment1/src/5-2.jpg" alt="图片2" width="50%" style="max-width: 300px;">
 </div>
 
 #### Key-points detection
 <div align="center">
-    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-3.png" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/5-3.png" alt="图片1" width="50%" style="max-width: 300px;">
     <img src="../CV_2251730_刘淑仪_Assignment1/src/5-4.png" alt="图片2" width="50%" style="max-width: 300px;">
 </div>
 
@@ -292,7 +292,7 @@ Code location: ./Program/Prog6
 #### Original image
 
 <div align="center">
-    <img src="../CV_2251730_刘淑仪_Assignment1/src/6-1.jpg" alt="图片1" width="50%" style="max-width: 300px; margin-right: 18px">
+    <img src="../CV_2251730_刘淑仪_Assignment1/src/6-1.jpg" alt="图片1" width="50%" style="max-width: 300px;">
     <img src="../CV_2251730_刘淑仪_Assignment1/src/6-2.jpg" alt="图片2" width="50%" style="max-width: 300px;">
 </div>
 
