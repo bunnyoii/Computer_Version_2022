@@ -10,154 +10,427 @@ Student ID: 2251730 Liu Shuyi
 
 ## Homogeneous Coordinates of the Point at Infinity
 
-First, convert the line equation into the homogeneous equation form in the projective plane:
+In the extended Euclidean plane (which can be regarded as a projective plane), points are represented by homogeneous coordinates $(X, Y, Z)$, and lines are described by homogeneous equations of the form $aX + bY + cZ = 0$.
 
-\[
+Consider the affine line $x - 3y + 4 = 0$. By introducing the homogeneous coordinate $Z$, it can be converted into its homogeneous form:
+
+$$
 X - 3Y + 4Z = 0
-\]
+$$
 
-The point at infinity satisfies \( Z = 0 \), so substitute \( Z = 0 \) into the equation to get:
+### Point at Infinity
 
-\[
-X - 3Y = 0 \quad \Rightarrow \quad X = 3Y
-\]
+Points at infinity lie on the line at infinity defined by $Z = 0$. To find the point at infinity corresponding to the given line, substitute $Z = 0$ into the homogeneous equation:
 
-Therefore, the homogeneous coordinates of the point at infinity are:
+$$
+X - 3Y = 0
+$$
 
-\[
-[3Y, Y, 0]^T = [3, 1, 0]^T
-\]
+This simplifies to:
 
-In conclusion, the homogeneous coordinates of the point at infinity for the line \( x - 3y + 4 = 0 \) are:
+$$
+X = 3Y
+$$
 
-\[
-[3, 1, 0]^T
-\]
+Therefore, the point at infinity must satisfy $X = 3Y$ and $Z = 0$. Introducing a nonzero constant $k$, the homogeneous coordinates can be represented as:
+
+$$
+(3k, k, 0)
+$$
+
+where $k \neq 0$. Since homogeneous coordinates are equivalent up to a nonzero scalar multiple, any nonzero scalar $k$ represents the same projective point at infinity.
+
+### Final Answer
+
+The homogeneous coordinates of the point at infinity can be expressed as:
+
+$$
+(3k, k, 0) \quad \text{with} \quad k \neq 0
+$$
 
 ## Jacobian Matrix of Distortion Mapping
 
-In the normalized retinal plane, assume \( p_n \) is an ideal projection point without considering distortion. If distortion is considered,\( p_n = (x, y)^T \) is mapped to \( p_d = (x_d, y_d)^T \), with the relationship represented by the following equations:
+Below is the detailed derivation of the Jacobian matrix $\frac{\partial \mathbf{p}_d}{\partial \mathbf{p}_n^T}$ for the mapping from $\mathbf{p}_n = (x, y)^T$ to $\mathbf{p}_d = (x_d, y_d)^T$.
 
-\[
-\begin{cases}
-x_d = x(1 + k_r r^2 + k_y r^4) + 2\rho_1 xy + \rho_2 (r^2 + 2x^2) + x k_r r^6 \\
-y_d = y(1 + k_r r^2 + k_y r^4) + 2\rho_2 xy + \rho_1 (r^2 + 2y^2) + y k_r r^6
-\end{cases}
-\]
+Given:
 
-where \( r^2 = x^2 + y^2 \)。
+$$
+x_d = x(1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + 2\rho_1 x y + \rho_2(r^2 + 2x^2)
+$$
 
-To perform nonlinear optimization in the camera calibration process, we need to calculate the Jacobian matrix of \( p_d \) with respect to \( p_n \) 
-\[
-\frac{dp_d}{dp_n} = \begin{bmatrix}
-\frac{\partial x_d}{\partial x} & \frac{\partial x_d}{\partial y} \\
+$$
+y_d = y(1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + 2\rho_2 x y + \rho_1(r^2 + 2y^2)
+$$
+
+where $r^2 = x^2 + y^2$.
+
+Define:
+
+$$
+A = 1 + k_1 r^2 + k_2 r^4 + k_3 r^6
+$$
+
+Thus:
+
+$$
+x_d = xA + 2\rho_1 x y + \rho_2(r^2 + 2x^2)
+$$
+
+$$
+y_d = yA + 2\rho_2 x y + \rho_1(r^2 + 2y^2)
+$$
+
+We need to calculate:
+
+$$
+\frac{\partial \mathbf{p}_d}{\partial \mathbf{p}_n^T} =
+\begin{bmatrix}
+\frac{\partial x_d}{\partial x} & \frac{\partial x_d}{\partial y} \\[6pt]
 \frac{\partial y_d}{\partial x} & \frac{\partial y_d}{\partial y}
 \end{bmatrix}
-\]
+$$
 
-After detailed derivation, the partial derivatives are as follows:
+### Calculate $\frac{\partial x_d}{\partial x}$
 
-\[
-\frac{\partial x_d}{\partial x} = 1 + k_r r^2 + k_y r^4 + 2 k_r x^2 + 4 k_y r^2 x^2 + 2 \rho_1 y + 6 \rho_2 x + k_r r^6 + 6 k_r x^2 r^4
-\]
+First, calculate $\frac{\partial A}{\partial x}$:
 
-\[
-\frac{\partial x_d}{\partial y} = 2 k_r x y + 4 k_y r^2 x y + 2 \rho_1 x + 2 \rho_2 y + 6 k_r x y r^4
-\]
+$$
+\frac{\partial A}{\partial x} = 2x(k_1 + 2k_2 r^2 + 3k_3 r^4)
+$$
 
-\[
-\frac{\partial y_d}{\partial x} = 2 k_r x y + 4 k_y r^2 x y + 2 \rho_2 y + 2 \rho_1 x + 6 k_r x y r^4
-\]
+Then:
 
-\[
-\frac{\partial y_d}{\partial y} = 1 + k_r r^2 + k_y r^4 + 2 k_r y^2 + 4 k_y r^2 y^2 + 2 \rho_2 x + 2 \rho_1 y + k_r r^6 + 6 k_r y^2 r^4
-\]
+$$
+\frac{\partial x_d}{\partial x} = A + x\frac{\partial A}{\partial x} + 2\rho_1 y + \frac{\partial}{\partial x}[\rho_2(r^2 + 2x^2)]
+= A + 2x^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_1 y + 6\rho_2 x
+$$
 
-Therefore, the Jacobian matrix is:
+Substituting $A$:
 
-\[
-\frac{dp_d}{dp_n} = \begin{bmatrix}
-1 + k_r r^2 + k_y r^4 + 2 k_r x^2 + 4 k_y r^2 x^2 + 2 \rho_1 y + 6 \rho_2 x + k_r r^6 + 6 k_r x^2 r^4 & 2 k_r x y + 4 k_y r^2 x y + 2 \rho_1 x + 2 \rho_2 y + 6 k_r x y r^4 \\
-2 k_r x y + 4 k_y r^2 x y + 2 \rho_2 y + 2 \rho_1 x + 6 k_r x y r^4 & 1 + k_r r^2 + k_y r^4 + 2 k_r y^2 + 4 k_y r^2 y^2 + 2 \rho_2 x + 2 \rho_1 y + k_r r^6 + 6 k_r y^2 r^4
+$$
+\frac{\partial x_d}{\partial x} = (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + 2x^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_1 y + 6\rho_2 x
+$$
+
+### Calculate $\frac{\partial x_d}{\partial y}$
+
+First, calculate $\frac{\partial A}{\partial y}$:
+
+$$
+\frac{\partial A}{\partial y} = 2y(k_1 + 2k_2 r^2 + 3k_3 r^4)
+$$
+
+Then:
+
+$$
+\frac{\partial x_d}{\partial y} = x\frac{\partial A}{\partial y} + 2\rho_1 x + \frac{\partial}{\partial y}[\rho_2(r^2 + 2x^2)]
+= 2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_1 x + 2\rho_2 y
+$$
+
+### Calculate $\frac{\partial y_d}{\partial x}$
+
+$$
+\frac{\partial y_d}{\partial x} = y\frac{\partial A}{\partial x} + 2\rho_2 y + \rho_1(2x)
+= 2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_2 y + 2\rho_1 x
+$$
+
+### Calculate $\frac{\partial y_d}{\partial y}$
+
+$$
+\frac{\partial y_d}{\partial y} = A + y\frac{\partial A}{\partial y} + 2\rho_2 x + \frac{\partial}{\partial y}[\rho_1(r^2 + 2y^2)]
+= A + 2y^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_2 x + 6\rho_1 y
+$$
+
+Substituting $A$:
+
+$$
+\frac{\partial y_d}{\partial y} = (1 + k_1 r^2 + k_2 r^4 + k_3 r^6) + 2y^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_2 x + 6\rho_1 y
+$$
+
+### Final Jacobian Matrix
+
+Combining the above results, we have:
+
+$$
+\frac{\partial \mathbf{p}_d}{\partial \mathbf{p}_n^T} =
+\begin{bmatrix}
+1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + 2x^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_1 y + 6\rho_2 x
+& 2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2(\rho_1 x + \rho_2 y) \\[6pt]
+2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2(\rho_1 x + \rho_2 y)
+& 1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + 2y^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_2 x + 6\rho_1 y
 \end{bmatrix}
-\]
+$$
 
 ## Jacobian Matrix of Rotation Matrix
 
-### 1. Definition of Rotation Matrix
+### Rodrigues' Rotation Formula
 
-According to Rodrigues' formula, the rotation matrix \( R \) can be expressed as:
+Given the axis-angle representation \( \mathbf{d} = \theta \mathbf{n} \), where \( \theta \) is the rotation angle and \( \mathbf{n} \) is the unit rotation axis, the rotation matrix \( R \) can be expressed using Rodrigues' rotation formula:
 
-\[
-R = \beta I + \gamma n n^T + \alpha [n]_\times
-\]
+$$
+R = \cos\theta \, I + (1 - \cos\theta) \, \mathbf{n}\mathbf{n}^T + \sin\theta \, \mathbf{n}^\wedge
+$$
 
 where:
-- \( \beta = \cos \theta \)
-- \( \gamma = 1 - \cos \theta \)
-- \( \alpha = \sin \theta \)
-- \( I \) is the identity matrix
-- \( [n]_\times \) is the skew-symmetric matrix of \( n \)
+- \( I \) is the \( 3 \times 3 \) identity matrix.
+- \( \mathbf{n}^\wedge \) is the skew-symmetric matrix of \( \mathbf{n} \):
 
-### 2. Vectorization of Rotation Matrix
+  $$
+  \mathbf{n}^\wedge = \begin{bmatrix}
+  0 & -n_3 & n_2 \\
+  n_3 & 0 & -n_1 \\
+  -n_2 & n_1 & 0
+  \end{bmatrix}
+  $$
 
-The vectorized form of the rotation matrix \( R \) is：
+- \( \alpha = \sin\theta \)
+- \( \beta = \cos\theta \)
+- \( \gamma = 1 - \cos\theta \)
 
-\[
-r = (r_{11}, r_{12}, r_{13}, r_{21}, r_{22}, r_{23}, r_{31}, r_{32}, r_{33})^T
-\]
+Substituting these notations, the rotation matrix simplifies to:
 
-### 3. Calculation of Jacobian Matrix
+$$
+R = \beta I + \gamma \mathbf{n}\mathbf{n}^T + \alpha \mathbf{n}^\wedge
+$$
 
-We need to calculate the Jacobian matrix \( \frac{dr}{dd^T} \) of \( r \) with respect to \( d \) , where \( d = \theta n \) and \( n \) is a unit vector.
+### Vectorizing the Rotation Matrix
 
-First, calculate the partial derivatives of \( r_{ij} \) with respect to \( \theta \) and \( n \) , then use the chain rule to find the partial derivatives of \( r_{ij} \) with respect to \( d \).
+The rotation matrix \( R \) is a \( 3 \times 3 \) matrix. To facilitate differentiation, we vectorize \( R \) into a \( 9 \times 1 \) vector \( \mathbf{r} \) in row-major order:
 
-#### 3.1 Partial Derivatives of \( r_{ij} \) with respect to \( \theta \)
+$$
+\mathbf{r} = \begin{bmatrix}
+r_{11} & r_{12} & r_{13} & r_{21} & r_{22} & r_{23} & r_{31} & r_{32} & r_{33}
+\end{bmatrix}^T
+$$
 
-For example:
+### Detailed Calculation of \( \mathbf{r} \)
 
-\[
-\frac{\partial r_{11}}{\partial \theta} = -\sin \theta + (1 - \cos \theta) \cdot 2 n_1^2
-\]
+Expanding \( R \) using Rodrigues' formula:
 
-#### 3.2 Partial Derivatives of \( r_{ij} \) with respect to \( n \)
+$$
+R = \beta I + \gamma \mathbf{n}\mathbf{n}^T + \alpha \mathbf{n}^\wedge
+$$
 
-For example:
+Breaking it down element-wise, we obtain:
 
-\[
-\frac{\partial r_{11}}{\partial n_1} = 2 (1 - \cos \theta) n_1
-\]
+$$
+R = \begin{bmatrix}
+\beta + \gamma n_1^2 & \gamma n_1 n_2 - \alpha n_3 & \gamma n_1 n_3 + \alpha n_2 \\
+\gamma n_2 n_1 + \alpha n_3 & \beta + \gamma n_2^2 & \gamma n_2 n_3 - \alpha n_1 \\
+\gamma n_3 n_1 - \alpha n_2 & \gamma n_3 n_2 + \alpha n_1 & \beta + \gamma n_3^2
+\end{bmatrix}
+$$
 
-#### 3.3 Partial Derivatives of \( \theta \) and \( n \) with respect to \( d \)
+Vectorizing \( R \):
 
-Since \( d = \theta n \) and \( n \) is a unit vector, therefore:
+$$
+\mathbf{r} = \begin{bmatrix}
+\beta + \gamma n_1^2 \\
+\gamma n_1 n_2 - \alpha n_3 \\
+\gamma n_1 n_3 + \alpha n_2 \\
+\gamma n_2 n_1 + \alpha n_3 \\
+\beta + \gamma n_2^2 \\
+\gamma n_2 n_3 - \alpha n_1 \\
+\gamma n_3 n_1 - \alpha n_2 \\
+\gamma n_3 n_2 + \alpha n_1 \\
+\beta + \gamma n_3^2
+\end{bmatrix}
+$$
 
-\[
-\theta = \|d\|, \quad n = \frac{d}{\|d\|}
-\]
+### Calculating the Jacobian \( \frac{d\mathbf{r}}{d\mathbf{n}^T} \)
 
-So:
+The Jacobian matrix \( \frac{d\mathbf{r}}{d\mathbf{n}^T} \) is a \( 9 \times 3 \) matrix where each element \( \frac{\partial r_i}{\partial n_j} \) represents the partial derivative of the \( i \)-th component of \( \mathbf{r} \) with respect to the \( j \)-th component of \( \mathbf{n} \).
 
-\[
-\frac{\partial \theta}{\partial d_k} = \frac{d_k}{\theta}
-\]
+#### Partial Derivatives
 
-\[
-\frac{\partial n_i}{\partial d_k} = \frac{\delta_{ik} \theta - n_k d_i}{\theta^2}
-\]
+1. **First Component \( r_1 = \beta + \gamma n_1^2 \)**
 
-#### 3.4 Combining Partial Derivatives
+   $$
+   \frac{\partial r_1}{\partial \mathbf{n}} = \begin{bmatrix}
+   2\gamma n_1 \\
+   0 \\
+   0
+   \end{bmatrix}
+   $$
 
-Using the chain rule, combine the above partial derivatives:
+2. **Second Component \( r_2 = \gamma n_1 n_2 - \alpha n_3 \)**
 
-\[
-\frac{\partial r_{ij}}{\partial d_k} = \frac{\partial r_{ij}}{\partial \theta} \frac{\partial \theta}{\partial d_k} + \sum_{m=1}^3 \frac{\partial r_{ij}}{\partial n_m} \frac{\partial n_m}{\partial d_k}
-\]
+   $$
+   \frac{\partial r_2}{\partial \mathbf{n}} = \begin{bmatrix}
+   \gamma n_2 \\
+   \gamma n_1 \\
+   -\alpha
+   \end{bmatrix}
+   $$
 
-#### 4. Conclusion
+3. **Third Component \( r_3 = \gamma n_1 n_3 + \alpha n_2 \)**
 
-Through the above steps, we can calculate the partial derivatives of each \( r_{ij} \) with respect to \( d_k \) and finally construct the Jacobian matrix \( \frac{dr}{dd^T} \) . This process requires careful symbolic computation to ensure each step is accurate.
+   $$
+   \frac{\partial r_3}{\partial \mathbf{n}} = \begin{bmatrix}
+   \gamma n_3 \\
+   \alpha \\
+   \gamma n_1
+   \end{bmatrix}
+   $$
+
+4. **Fourth Component \( r_4 = \gamma n_2 n_1 + \alpha n_3 \)**
+
+   $$
+   \frac{\partial r_4}{\partial \mathbf{n}} = \begin{bmatrix}
+   \gamma n_2 \\
+   \gamma n_1 \\
+   \alpha
+   \end{bmatrix}
+   $$
+
+5. **Fifth Component \( r_5 = \beta + \gamma n_2^2 \)**
+
+   $$
+   \frac{\partial r_5}{\partial \mathbf{n}} = \begin{bmatrix}
+   0 \\
+   2\gamma n_2 \\
+   0
+   \end{bmatrix}
+   $$
+
+6. **Sixth Component \( r_6 = \gamma n_2 n_3 - \alpha n_1 \)**
+
+   $$
+   \frac{\partial r_6}{\partial \mathbf{n}} = \begin{bmatrix}
+   -\alpha \\
+   \gamma n_3 \\
+   \gamma n_2
+   \end{bmatrix}
+   $$
+
+7. **Seventh Component \( r_7 = \gamma n_3 n_1 - \alpha n_2 \)**
+
+   $$
+   \frac{\partial r_7}{\partial \mathbf{n}} = \begin{bmatrix}
+   \gamma n_3 \\
+   -\alpha \\
+   \gamma n_1
+   \end{bmatrix}
+   $$
+
+8. **Eighth Component \( r_8 = \gamma n_3 n_2 + \alpha n_1 \)**
+
+   $$
+   \frac{\partial r_8}{\partial \mathbf{n}} = \begin{bmatrix}
+   \alpha \\
+   \gamma n_3 \\
+   \gamma n_2
+   \end{bmatrix}
+   $$
+
+9. **Ninth Component \( r_9 = \beta + \gamma n_3^2 \)**
+
+   $$
+   \frac{\partial r_9}{\partial \mathbf{n}} = \begin{bmatrix}
+   0 \\
+   0 \\
+   2\gamma n_3
+   \end{bmatrix}
+   $$
+
+#### Assembling the Jacobian Matrix
+
+Combining all the partial derivatives, the Jacobian matrix \( \frac{d\mathbf{r}}{d\mathbf{n}^T} \) is:
+
+$$
+\frac{d\mathbf{r}}{d\mathbf{n}^T} =
+\begin{bmatrix}
+2\gamma n_1 & 0 & 0 \\
+\gamma n_2 & \gamma n_1 & -\alpha \\
+\gamma n_3 & \alpha & \gamma n_1 \\
+\gamma n_2 & \gamma n_1 & \alpha \\
+0 & 2\gamma n_2 & 0 \\
+-\alpha & \gamma n_3 & \gamma n_2 \\
+\gamma n_3 & -\alpha & \gamma n_1 \\
+\alpha & \gamma n_3 & \gamma n_2 \\
+0 & 0 & 2\gamma n_3 \\
+\end{bmatrix}
+$$
+
+### Calculating the Jacobian Matrix of \( \mathbf{r} \) with Respect to \( \mathbf{d} \) (\( \frac{\partial \mathbf{r}}{\partial \mathbf{d}^T} \))
+
+Using the chain rule, the Jacobian matrix \( \frac{\partial \mathbf{r}}{\partial \mathbf{d}^T} \) can be expressed as:
+
+$$
+\frac{\partial \mathbf{r}}{\partial \mathbf{d}^T} = \frac{\partial \mathbf{r}}{\partial \theta} \frac{\partial \theta}{\partial \mathbf{d}^T} + \frac{\partial \mathbf{r}}{\partial \mathbf{n}^T} \frac{\partial \mathbf{n}}{\partial \mathbf{d}^T}
+$$
+
+#### 1. Calculate \( \frac{\partial \theta}{\partial \mathbf{d}^T} \)
+
+Given \( \theta = \|\mathbf{d}\| = \sqrt{d_1^2 + d_2^2 + d_3^2} \), the partial derivative of \( \theta \) with respect to \( \mathbf{d} \) is:
+
+$$
+\frac{\partial \theta}{\partial \mathbf{d}^T} = \frac{\mathbf{d}^T}{\theta} = \mathbf{n}^T
+$$
+
+#### 2. Calculate \( \frac{\partial \mathbf{n}}{\partial \mathbf{d}^T} \)
+
+Since \( \mathbf{n} = \frac{\mathbf{d}}{\theta} \), differentiating with respect to \( \mathbf{d}^T \) yields:
+
+$$
+\frac{\partial \mathbf{n}}{\partial \mathbf{d}^T} = \frac{1}{\theta} \left( I - \mathbf{n}\mathbf{n}^T \right)
+$$
+
+where \( I \) is the \( 3 \times 3 \) identity matrix.
+
+#### 3. Calculate \( \frac{\partial \mathbf{r}}{\partial \theta} \)
+
+From the expression of \( \mathbf{r} \):
+
+$$
+\mathbf{r} = \begin{bmatrix}
+\beta + \gamma n_1^2 \\
+\gamma n_1 n_2 - \alpha n_3 \\
+\gamma n_1 n_3 + \alpha n_2 \\
+\gamma n_2 n_1 + \alpha n_3 \\
+\beta + \gamma n_2^2 \\
+\gamma n_2 n_3 - \alpha n_1 \\
+\gamma n_3 n_1 - \alpha n_2 \\
+\gamma n_3 n_2 + \alpha n_1 \\
+\beta + \gamma n_3^2
+\end{bmatrix}
+$$
+
+Taking the derivative with respect to \( \theta \):
+
+- \( \frac{\partial \beta}{\partial \theta} = -\sin\theta = -\alpha \)
+- \( \frac{\partial \gamma}{\partial \theta} = \sin\theta = \alpha \)
+
+Thus, the derivative \( \frac{\partial \mathbf{r}}{\partial \theta} \) is:
+
+$$
+\frac{\partial \mathbf{r}}{\partial \theta} = \begin{bmatrix}
+-\alpha + \alpha n_1^2 \\
+\alpha n_1 n_2 - \cos\theta n_3 \\
+\alpha n_1 n_3 + \cos\theta n_2 \\
+\alpha n_2 n_1 + \cos\theta n_3 \\
+-\alpha + \alpha n_2^2 \\
+\alpha n_2 n_3 - \cos\theta n_1 \\
+\alpha n_3 n_1 - \cos\theta n_2 \\
+\alpha n_3 n_2 + \cos\theta n_1 \\
+-\alpha + \alpha n_3^2 \\
+\end{bmatrix}
+$$
+
+However, for simplification, if higher-order derivatives are negligible or specific assumptions are made, this term can be adjusted accordingly.
+
+#### 4. Substitute into the Chain Rule
+
+Combining the above results, the Jacobian \( \frac{\partial \mathbf{r}}{\partial \mathbf{d}^T} \) becomes:
+
+$$
+\frac{\partial \mathbf{r}}{\partial \mathbf{d}^T} = \frac{\partial \mathbf{r}}{\partial \theta} \mathbf{n}^T + \frac{1}{\theta} \frac{\partial \mathbf{r}}{\partial \mathbf{n}^T} \left( I - \mathbf{n}\mathbf{n}^T \right)
+$$
+
+### Final Answer
+
+The concrete form of the Jacobian matrix is:
+
+![](JacobianMatrix.png)
 
 ## Bird's Eye View Generation
 
@@ -173,24 +446,24 @@ Code location: ../Project1
 
 ### Results are as follows:
 
-#### 相机标定参数
+#### Camera calibration parameters
 
-### Reprojection Error
+##### Reprojection Error
 $ret = 1.3526290383110415$
 
-### Intrinsic Matrix
+##### Intrinsic Matrix
 $\text{mtx} = \begin{bmatrix}
 1.06408820 \times 10^3 & 0.00000000 \times 10^0 & 6.97624043 \times 10^2 \\
 0.00000000 \times 10^0 & 1.05884544 \times 10^3 & 3.67820618 \times 10^2 \\
 0.00000000 \times 10^0 & 0.00000000 \times 10^0 & 1.00000000 \times 10^0
 \end{bmatrix}$
 
-### Distortion Coefficients
+##### Distortion Coefficients
 $\text{dist} = \begin{bmatrix}
 2.19183009 \times 10^{-1} & -9.71999184 \times 10^{-1} & 8.92226849 \times 10^{-4} & -7.72790370 \times 10^{-3} & 9.61389806 \times 10^{-1}
 \end{bmatrix}$
 
-### Rotation Vectors
+##### Rotation Vectors
 $\text{rvecs} = \begin{pmatrix}
 \begin{bmatrix}
 -0.15060814 \\
@@ -244,7 +517,7 @@ $\text{rvecs} = \begin{pmatrix}
 \end{bmatrix}
 \end{pmatrix}$
 
-### Translation Vectors
+##### Translation Vectors
 $\text{tvecs} = \begin{pmatrix}
 \begin{bmatrix}
 -0.16131816 \\
