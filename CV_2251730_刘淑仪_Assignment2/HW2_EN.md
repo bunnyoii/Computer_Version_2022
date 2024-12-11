@@ -150,15 +150,7 @@ $$
 
 Combining the above results, we have:
 
-$$
-\frac{\partial \mathbf{p}_d}{\partial \mathbf{p}_n^T} =
-\begin{bmatrix}
-1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + 2x^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_1 y + 6\rho_2 x
-& 2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2(\rho_1 x + \rho_2 y) \\[6pt]
-2xy(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2(\rho_1 x + \rho_2 y)
-& 1 + k_1 r^2 + k_2 r^4 + k_3 r^6 + 2y^2(k_1 + 2k_2 r^2 + 3k_3 r^4) + 2\rho_2 x + 6\rho_1 y
-\end{bmatrix}
-$$
+![](FinalJacobianMatrix_T2.png)
 
 ## Jacobian Matrix of Rotation Matrix
 
@@ -430,7 +422,7 @@ $$
 
 The concrete form of the Jacobian matrix is:
 
-![](JacobianMatrix.png)
+![](JacobianMatrix_T3.png)
 
 ## Bird's Eye View Generation
 
@@ -441,8 +433,6 @@ Platform: PyCharm Professional 2024.1.4
 Python version: 3.12.4
 
 Python libraries: numpy opencv-Python
-
-Code location: ../Project1
 
 ### Results are as follows:
 
@@ -489,7 +479,7 @@ $\text{rvecs} = \begin{pmatrix}
 0.42666152 \\
 0.16677968 \\
 -1.6343885
-\end{bmatrix}, &
+\end{bmatrix}, \\
 \begin{bmatrix}
 0.42971655 \\
 -0.20436555 \\
@@ -543,7 +533,7 @@ $\text{tvecs} = \begin{pmatrix}
 -0.08562375 \\
 0.08729008 \\
 0.34406331
-\end{bmatrix}, &
+\end{bmatrix}, \\
 \begin{bmatrix}
 -0.05401651 \\
 0.05972098 \\
@@ -572,10 +562,10 @@ $\text{tvecs} = \begin{pmatrix}
 \end{pmatrix}$
 
 #### Original Image
-![](../CV_2251730_刘淑仪_Assignment2/Project1/result/Original.jpg)
+![](../CV_2251730_刘淑仪_Assignment2/result/Original.jpg)
 
 #### Undistorted Image
-![](../CV_2251730_刘淑仪_Assignment2/Project1/result/Undistorted.jpg)
+![](../CV_2251730_刘淑仪_Assignment2/result/Undistorted.jpg)
 
 #### Bird's Eye View
-![](../CV_2251730_刘淑仪_Assignment2/Project1/result/Bird_View.jpg)
+![](../CV_2251730_刘淑仪_Assignment2/result/Bird_View.jpg)
