@@ -5,3 +5,5 @@
 授课教师：张林
 
 授课学期：2024-2025年度 秋季学期
+
+期末项目链接：[Speedbump_Detection_and_Distance_Measurement](https://github.com/bunnyoii/Speedbump_Detection_and_Distance_Measurement)
